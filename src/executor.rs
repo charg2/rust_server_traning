@@ -1,4 +1,5 @@
 ﻿use std::ptr::null;
+use std::ops::{Deref, DerefMut};
 use crate::executor;
 use crate::lock_queue::LockQueue;
 
@@ -52,10 +53,11 @@ impl IJob for Job
 impl Job
 {
     pub fn new<F>(func: F) -> Job
-    where
+    where 
         F: FnOnce() + Send + 'static,
     {
-        Job {
+        Job 
+        {
             func: Some(Box::new(func)),
         }
     }
@@ -65,7 +67,7 @@ impl Executor
 {
     pub fn new() -> Executor
     {
-        Executor { job_queue: LockQueue::new(), }
+        Executor {job_queue: LockQueue::new(),}
     }
 
     pub fn post<F>(&self, job: F)
